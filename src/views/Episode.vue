@@ -1,18 +1,18 @@
 <template>
-    <h2 class="my-10 text-5xl">{{ pageTitle }}</h2>
-    <div class="container">
-        <div class="card-list">
-            <div class="card" v-for="item in contentList" :key="item.id">
-                <div class="item-id">{{ item.id }}</div>
-                <div class="item-name text-2xl font-bold">{{ item.name }}</div>
-                <div class="item-date">air date:{{ item.air_date }}</div>
-                <div class="item-episode">{{ item.episode }}</div>
-                <div class="item-created">created: {{ item.created }}</div>
+     <div class="mt-32 mb-12 text-5xl">{{ pageTitle }}</div>
+    <div>
+        <div class="flex flex-auto flex-wrap w-full">
+            <div class="item w-1/4 border-t-1 border-r-1 border-gray-600" v-for="item in contentList" :key="item.id" >
+                <div class="text-left p-6">
+                    <div>{{ item.episode }}</div>
+                    <div class="text-2xl font-bold mb-2">{{ item.name }}</div>
+                    <div><i class="fa-solid fa-tower-broadcast"></i> {{ item.air_date }}</div>
+                </div>
             </div>
         </div>
-        <div class="pagination mt-4">
-            <button class="page-prev mr-2 disabled:bg-gray-700 border-0 text-gray-400" @click="pageChange(-1)" :disabled="currPage === 1">prev</button>
-            <button class="page-next disabled:bg-gray-700 border-0 text-gray-400" @click="pageChange(1)" :disabled="currPage === totalPage">next</button>
+        <div class="mt-20">
+            <button class="mr-2 bg-black border-0 text-gray-200 hover:opacity-70 disabled:opacity-100 disabled:bg-gray-900 disabled:text-gray-500" @click="pageChange(-1)" :disabled="currPage === 1">prev</button>
+            <button class="border-0 bg-black text-gray-200 hover:opacity-70 disabled:opacity-100  disabled:bg-gray-900 disabled:text-gray-500" @click="pageChange(1)" :disabled="currPage === totalPage">next</button>
         </div>
     </div>
 
@@ -30,6 +30,9 @@
         axios.get("https://rickandmortyapi.com/api/episode").then((res) => {
             contentList.value = res.data.results;
             totalPage.value = res.data.info.pages;
+            contentList.value.forEach(element => {
+                element.episode =  element.episode.replace(/(S\d{2})(E\d{2})/, "$1 $2");
+            })
         }).catch((error)=>{
             console.log(error)
         })
@@ -40,6 +43,9 @@
         axios.get("https://rickandmortyapi.com/api/episode/?page=" + numChange).then((res) => {
             contentList.value = res.data.results;
             currPage.value += num;
+            contentList.value.forEach(element => {
+                element.episode =  element.episode.replace(/(S\d{2})(E\d{2})/, "$1 $2");
+            })
         }).catch((error)=>{
             console.log(error)
         })
@@ -47,42 +53,14 @@
 </script>
 
 <style scoped>
-    .card-list{
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-    .card{
-        position: relative;
-        width: calc(25% - 2em);
-        padding: 1.5em .5em;
-        border: 1px solid #333;
-        border-radius: 1em;
-        margin: 0.4rem;
-        overflow: hidden;
-    }
-    .card a{
-        color:#eee;
-    }
-    .item-id{
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 2em;
-        padding: 0.2em;
-        border: 1px solid #333;
-        border-radius: .3em;
-        text-align: center;
-    }
-    .item-name{
-        /* font-weight: bold; */
-        text-align: center;
-        /* font-size: 1.5em; */
-        margin-bottom: 0.2em;
-    }
-    .btn-outline{
-        border: 2px solid darkblue;
-        background-color: #fff;
-        color: darkblue;
-    }
+.item:nth-child(4n){
+    @apply border-r-0;
+}
+.item:nth-last-of-type(1),.item:nth-last-of-type(2),.item:nth-last-of-type(3),.item:nth-last-of-type(4){
+    @apply border-b-1;
+}
+.fa-solid{
+    @apply w-6 text-center;
+}
 </style>
+

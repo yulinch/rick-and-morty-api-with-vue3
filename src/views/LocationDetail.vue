@@ -6,9 +6,9 @@
                 <img class="w-full" :src="item.image" alt="">
                 <div class="text-left p-6">
                     <div class="text-2xl font-bold mb-2">{{ item.name }}</div>
-                    <div>{{ item.status }}</div>
-                    <div><i class="fa-solid fa-ghost"></i> Species: {{ item.species }}</div>
-                    <div>{{ item.type }}</div>
+                    <div><i class="fa-solid fa-ghost"></i> {{ item.species }}</div>
+                    <div><i class="fa-solid fa-venus-mars"></i> {{ item.gender }}</div>
+                    <div :class="getStatus(item.status)"><i class="fa-solid fa-star-of-life"></i> {{ item.status }}</div>
                 </div>
             </div>
         </div>
@@ -26,6 +26,7 @@
 
     const pageTitle = "Location Detail";
     // console.log('history.state', history.state.id);
+    // console.log(route.params);
 
     // import Data content
     const getAxios = (id) => {
@@ -41,16 +42,30 @@
         })
     };
 
+    const getStatus = (event) => {
+        if(event == "Alive"){
+            return "text-green-500";
+        }else if(event == "Dead"){
+            return "text-red-600";
+        } else {
+            return "text-gray-400";
+        }
+    }
+
     onMounted(()=>{
-        getAxios(history.state.id);
+        // getAxios(history.state.id);
+        getAxios(route.params.id);
     });
 </script>
 
-<style scoped>
-   .item:nth-child(4n){
-        @apply border-r-0;
-    }
-    .item:nth-last-of-type(1),.item:nth-last-of-type(2),.item:nth-last-of-type(3),.item:nth-last-of-type(4){
-        @apply border-b-1;
-    }
+<style scoped2>
+ .item:nth-child(4n){
+    @apply border-r-0;
+}
+.item:nth-last-of-type(1),.item:nth-last-of-type(2),.item:nth-last-of-type(3),.item:nth-last-of-type(4){
+    @apply border-b-1;
+}
+.fa-solid{
+    @apply w-6 text-center;
+}
 </style>

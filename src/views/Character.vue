@@ -8,7 +8,7 @@
                     <div class="text-2xl font-bold mb-2">{{ item.name }}</div>
                     <div><i class="fa-solid fa-ghost"></i> {{ item.species }}</div>
                     <div><i class="fa-solid fa-venus-mars"></i> {{ item.gender }}</div>
-                    <div><i class="fa-solid fa-star-of-life" :class="getStatus(item.id)"></i> {{ item.status }}</div>
+                    <div :class="getStatus(item.status)"><i class="fa-solid fa-star-of-life"></i> {{ item.status }}</div>
                 </div>
             </div>
         </div>
@@ -31,8 +31,7 @@
 
     const getAxios = () => {
         axios.get("https://rickandmortyapi.com/api/character").then((res) => {
-          characterList.value = res.data.results;
-        //   console.log(characterList.value[1])
+            characterList.value = res.data.results;
         }).catch((error)=>{
             console.log(error)
         })
@@ -40,14 +39,13 @@
     getAxios();
 
     const getStatus = (event) => {
-        // console.log(event);
-        // if(event == "Alive"){
-        //     return "text-green-500"
-        // }else if(event == "Dead"){
-        //     return "text-red-500"
-        // } else {
-        //     return "text-gray-700"
-        // }
+        if(event == "Alive"){
+            return "text-green-500";
+        }else if(event == "Dead"){
+            return "text-red-600";
+        } else {
+            return "text-gray-400";
+        }
     }
 
     // Go to Detail Page
@@ -66,6 +64,7 @@
             console.log(error)
         })
     };
+
 
 
 </script>

@@ -42,7 +42,7 @@ const routes = [
     component: () => import('../views/Location.vue'), // 動態載入dynamic loading，router改變時才載入元件
   },
   {
-    path: '/locationDetail',
+    path: '/locationDetail/:id',
     name: 'Location Detail',
     component: () => import('../views/LocationDetail.vue'),
   },

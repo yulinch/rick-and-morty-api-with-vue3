@@ -41,7 +41,8 @@
     getAxios();
 
     const gotoDetail= (event)=> {
-        router.push({name: 'Location Detail', state:{id:event}});
+        // router.push({name: 'Location Detail', state:{id:event}});
+        router.push({name: 'Location Detail', params:{id:event}});
     }
 
     // pagition
